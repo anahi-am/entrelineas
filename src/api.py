@@ -3,6 +3,8 @@
 from __future__ import annotations
 
 from datetime import date
+import json
+from pathlib import Path
 from typing import Any
 
 from fastapi import FastAPI, HTTPException
@@ -10,6 +12,8 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from db.client import get_supabase_client
 from src.config import settings
+
+SEED_PATH = Path(__file__).resolve().parents[1] / "db" / "seeds" / "promises_seed.json"
 
 app = FastAPI(title="EntreLineas API", version="0.1.0")
 app.add_middleware(
@@ -35,6 +39,7 @@ def _public_record(row: dict[str, Any], evidence: list[dict[str, Any]]) -> dict[
         "en_tramite": "in_progress",
         "bloqueada": "blocked",
         "sin_rastro": "no_trace",
+        "evidencia_insuficiente": "insufficient_evidence",
     }
     source_url = row.get("source_url", "")
     return {
@@ -66,7 +71,10 @@ def _public_evidence(link: dict[str, Any], boe: dict[str, Any]) -> dict[str, Any
 
 def _fetch_public_records() -> list[dict[str, Any]]:
     if not settings.supabase_url or not settings.supabase_key:
-        return []
+        if not SEED_PATH.exists():
+            return []
+        seed_rows = json.loads(SEED_PATH.read_text(encoding="utf-8"))
+        return [_public_record(row, row.get("evidence", [])) for row in seed_rows]
     client = get_supabase_client()
     promises = (
         client.table("promises").select("*").eq("topic", "vivienda").execute().data or []

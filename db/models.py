@@ -15,6 +15,7 @@ class EvidenceStatus(str, Enum):
     EN_TRAMITE = "en_tramite"
     BLOQUEADA = "bloqueada"
     SIN_RASTRO = "sin_rastro"
+    EVIDENCIA_INSUFICIENTE = "evidencia_insuficiente"
 
 
 class BoeItem(BaseModel):

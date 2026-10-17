@@ -1,1 +1,18 @@
-[]
+[
+  {
+    "id": "promise-housing-sanchez-2023-183k",
+    "party": "Pedro Sánchez / Gobierno de España",
+    "text": "habilitación de 183.000 viviendas públicas para alquiler asequible",
+    "source_url": "https://www.lamoncloa.gob.es/presidente/intervenciones/paginas/2023/prsp15112023.aspx",
+    "topic": "vivienda",
+    "territory": "España",
+    "status": "evidencia_insuficiente",
+    "plain_language_explanation": "El candidato anunció la habilitación de 183.000 viviendas públicas para alquiler asequible durante la legislatura.",
+    "unverified_notes": [
+      "Aún no se ha confirmado cuántas viviendas se han habilitado.",
+      "El Real Decreto 42/2022 muestra un marco estatal relacionado, pero es anterior a esta promesa y no prueba su cumplimiento."
+    ],
+    "updated_at": "2026-10-17T00:00:00Z",
+    "evidence": []
+  }
+]

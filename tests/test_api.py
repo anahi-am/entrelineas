@@ -10,4 +10,7 @@ def test_health_and_empty_local_public_feed() -> None:
         "scope": "housing",
         "territory": "Estatal",
     }
-    assert client.get("/published/promises").json() == {"items": []}
+    response = client.get("/published/promises")
+    assert response.status_code == 200
+    assert response.json()["items"][0]["id"] == "promise-housing-sanchez-2023-183k"
+    assert response.json()["items"][0]["status"] == "insufficient_evidence"
