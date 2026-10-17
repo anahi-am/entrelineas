@@ -22,7 +22,7 @@ class BoeItem(BaseModel):
     date: date
     title: str
     original_url: str
-    raw_text: str
+    raw_text: str = ""
     simplified_text: str = ""
     topics: list[str] = Field(default_factory=list)
     territory: str = ""
