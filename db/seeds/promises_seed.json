@@ -4,6 +4,17 @@
     "party": "Pedro Sánchez / Gobierno de España",
     "text": "habilitación de 183.000 viviendas públicas para alquiler asequible",
     "source_url": "https://www.lamoncloa.gob.es/presidente/intervenciones/paginas/2023/prsp15112023.aspx",
+    "announcement_date": "2023-11-15",
+    "validation_sources": [
+      {
+        "title": "Real Decreto 42/2022 — Plan Estatal para el acceso a la vivienda 2022-2025",
+        "publisher": "BOE",
+        "url": "https://www.boe.es/buscar/act.php?id=BOE-A-2022-802",
+        "publishedAt": "2022-01-18",
+        "relationship": "related_context",
+        "whatItEstablishes": "Marco estatal relacionado; no demuestra por sí solo el cumplimiento de la promesa de 183.000 viviendas."
+      }
+    ],
     "topic": "vivienda",
     "territory": "España",
     "status": "evidencia_insuficiente",

@@ -21,6 +21,8 @@ export interface SourceLink {
   url: string;
   /** ISO date (YYYY-MM-DD), optional. */
   publishedAt?: string;
+  relationship?: 'announcement' | 'candidate_validation' | 'related_context';
+  whatItEstablishes?: string;
 }
 
 export interface EvidenceItem {
@@ -45,6 +47,8 @@ export interface PromiseRecord {
   territory: string;
   plainLanguageExplanation: string;
   officialSource: SourceLink;
+  /** Publicly inspectable validation/context sources; these are not automatically proof. */
+  validationSources?: SourceLink[];
   /** Label supplied by the data source. The UI never computes or changes it. */
   status: EvidenceStatus;
   /** Only approved evidence ever reaches this array (enforced in the data layer). */

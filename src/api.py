@@ -49,10 +49,16 @@ def _public_record(row: dict[str, Any], evidence: list[dict[str, Any]]) -> dict[
         "topic": "housing",
         "territory": row["territory"],
         "plainLanguageExplanation": row.get("plain_language_explanation", row["text"]),
-        "officialSource": _source("Fuente oficial de la promesa", row["party"], source_url),
+        "officialSource": _source(
+            "Fuente oficial de la promesa",
+            row["party"],
+            source_url,
+            row.get("announcement_date"),
+        ),
         "status": status_map.get(row.get("status", "sin_rastro"), "insufficient_evidence"),
         "evidence": evidence,
         "unverifiedNotes": row.get("unverified_notes", []),
+        "validationSources": row.get("validation_sources", []) or [],
         "lastUpdatedAt": row.get("updated_at", row.get("created_at", date.today().isoformat())),
     }
 

@@ -34,6 +34,8 @@ class Promise(BaseModel):
     party: str
     text: str
     source_url: str
+    announcement_date: date | None = None
+    validation_sources: list[dict[str, str]] = Field(default_factory=list)
     topic: Topic
     territory: str
     status: EvidenceStatus = EvidenceStatus.SIN_RASTRO

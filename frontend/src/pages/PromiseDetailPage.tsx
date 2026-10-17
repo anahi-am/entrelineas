@@ -165,6 +165,32 @@ export function PromiseDetailPage() {
                 <SourceReference source={promise.officialSource} />
               </dd>
             </div>
+            <div>
+              <dt>Fuentes de validación y contexto</dt>
+              <dd>
+                {(promise.validationSources ?? []).length > 0 ? (
+                  <div className="source-stack">
+                    {(promise.validationSources ?? []).map((source) => (
+                      <div key={source.url}>
+                        <p className="source-label">
+                          {source.relationship === 'related_context'
+                            ? 'Contexto oficial relacionado'
+                            : source.relationship === 'candidate_validation'
+                              ? 'Validación candidata'
+                              : 'Fuente pública'}
+                        </p>
+                        <SourceReference source={source} />
+                        {source.whatItEstablishes && (
+                          <p className="hint">{source.whatItEstablishes}</p>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <span className="muted">Todavía no hay una fuente de validación publicada.</span>
+                )}
+              </dd>
+            </div>
           </dl>
         </aside>
       </div>
