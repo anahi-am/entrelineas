@@ -3,13 +3,18 @@
    carried by icon shape + text + border style, never by colour alone. */
 
 :root {
-  --paper: #fbf8f2;
-  --surface: #ffffff;
-  --ink: #1b1a17;
-  --muted: #57534a;
-  --line: #d9d3c6;
-  --link: #0b4f8a;
-  --focus: #0a3d91;
+  /* Madrid civic palette: deep blue, flag red, and restrained gold. */
+  --paper: #f7f3ea;
+  --surface: #fffdf8;
+  --ink: #17324d;
+  --muted: #4d5c68;
+  --line: #c9d2d8;
+  --link: #075985;
+  --focus: #c8102e;
+  --madrid-red: #c8102e;
+  --madrid-blue: #17324d;
+  --madrid-sky: #2f6f95;
+  --madrid-gold: #e5a928;
 
   --serif: 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, 'Times New Roman', serif;
   --sans: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
@@ -100,7 +105,7 @@ main:focus {
 
 /* ---------- header / footer ---------- */
 .site-header {
-  border-bottom: 2px solid var(--ink);
+  border-bottom: 4px solid var(--madrid-red);
   background: var(--paper);
 }
 .site-header-inner {
@@ -125,10 +130,12 @@ main:focus {
 .brand-mark {
   width: 1.5rem;
   height: 1.1rem;
+  border-radius: 2px;
   background:
-    linear-gradient(var(--ink), var(--ink)) 0 0 / 100% 3px no-repeat,
-    linear-gradient(var(--ink), var(--ink)) 0 50% / 100% 3px no-repeat,
-    repeating-linear-gradient(90deg, var(--ink) 0 4px, transparent 4px 8px) 0 100% / 60% 3px no-repeat;
+    radial-gradient(circle at 74% 25%, var(--madrid-gold) 0 2px, transparent 2.5px),
+    linear-gradient(var(--madrid-red), var(--madrid-red)) 0 0 / 34% 100% no-repeat,
+    linear-gradient(var(--madrid-sky), var(--madrid-sky)) 34% 0 / 66% 100% no-repeat;
+  box-shadow: inset 0 0 0 2px var(--madrid-blue);
 }
 .tagline {
   margin: 0;
@@ -137,9 +144,9 @@ main:focus {
 }
 
 .demo-banner {
-  background: #fdf0cf;
-  color: #4a3300;
-  border-bottom: 1px solid #d9b95a;
+  background: #fff3cf;
+  color: #5b4300;
+  border-bottom: 1px solid var(--madrid-gold);
   padding: 0.6rem 0;
   font-size: 0.95rem;
 }
@@ -245,10 +252,10 @@ main:focus {
   cursor: pointer;
 }
 .chip:hover {
-  background: #efe9db;
+  background: #e7eef2;
 }
 .chip[aria-pressed='true'] {
-  background: var(--ink);
+  background: var(--madrid-blue);
   color: var(--paper);
 }
 
