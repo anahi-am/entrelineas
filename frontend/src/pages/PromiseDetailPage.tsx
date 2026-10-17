@@ -206,6 +206,30 @@ export function PromiseDetailPage() {
                 )}
               </dd>
             </div>
+            <div>
+              <dt>Contexto estadístico</dt>
+              <dd>
+                {(promise.contextMetrics ?? []).length > 0 ? (
+                  <div className="source-stack">
+                    {(promise.contextMetrics ?? []).map((metric) => (
+                      <div key={metric.id}>
+                        <p><strong>{metric.label}</strong></p>
+                        <p className="metric-value">{metric.value}{metric.unit} · {metric.period}</p>
+                        <p className="hint">{metric.interpretation}</p>
+                        <p className="hint">Límite: {metric.limitation}</p>
+                        <p className="source">
+                          <a href={metric.sourceUrl} target="_blank" rel="noopener noreferrer" className="source-link">
+                            {metric.sourceTitle}
+                          </a>
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <span className="muted">Todavía no hay un indicador estadístico añadido.</span>
+                )}
+              </dd>
+            </div>
           </dl>
         </aside>
       </div>

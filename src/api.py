@@ -67,6 +67,7 @@ def _public_record(row: dict[str, Any], evidence: list[dict[str, Any]]) -> dict[
         "evidence": evidence,
         "unverifiedNotes": row.get("unverified_notes", []),
         "contextSources": row.get("validation_sources", []) or [],
+        "contextMetrics": row.get("context_metrics", []) or [],
         "lastUpdatedAt": row.get("updated_at", row.get("created_at", date.today().isoformat())),
     }
 

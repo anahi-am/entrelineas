@@ -1,6 +1,6 @@
 from datetime import date, datetime
 from enum import Enum
-from typing import Literal
+from typing import Any, Literal
 
 from pydantic import BaseModel, Field
 
@@ -37,6 +37,7 @@ class Promise(BaseModel):
     announcement_date: date | None = None
     validation_sources: list[dict[str, str]] = Field(default_factory=list)
     source_verification: dict[str, str] = Field(default_factory=dict)
+    context_metrics: list[dict[str, Any]] = Field(default_factory=list)
     topic: Topic
     territory: str
     status: EvidenceStatus = EvidenceStatus.SIN_RASTRO

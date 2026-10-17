@@ -54,6 +54,7 @@ export interface PromiseRecord {
   };
   /** Publicly inspectable context sources; these are not proof of fulfilment. */
   contextSources?: SourceLink[];
+  contextMetrics?: ContextMetric[];
   /** Label supplied by the data source. The UI never computes or changes it. */
   status: EvidenceStatus;
   /** Only approved evidence ever reaches this array (enforced in the data layer). */
@@ -62,4 +63,17 @@ export interface PromiseRecord {
   unverifiedNotes: string[];
   /** ISO date (YYYY-MM-DD). */
   lastUpdatedAt: string;
+}
+
+export interface ContextMetric {
+  id: string;
+  label: string;
+  value: number;
+  unit: string;
+  period: string;
+  territory: string;
+  sourceUrl: string;
+  sourceTitle: string;
+  interpretation: string;
+  limitation: string;
 }

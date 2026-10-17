@@ -9,6 +9,7 @@ create table if not exists promises (
   announcement_date date,
   validation_sources jsonb not null default '[]'::jsonb,
   source_verification jsonb not null default '{}'::jsonb,
+  context_metrics jsonb not null default '[]'::jsonb,
   topic text not null check (topic = 'vivienda'),
   territory text not null,
   status text not null default 'sin_rastro' check (status in ('hecho', 'en_tramite', 'bloqueada', 'sin_rastro', 'evidencia_insuficiente')),
@@ -49,6 +50,7 @@ alter table promises add column if not exists updated_at timestamptz not null de
 alter table promises add column if not exists announcement_date date;
 alter table promises add column if not exists validation_sources jsonb not null default '[]'::jsonb;
 alter table promises add column if not exists source_verification jsonb not null default '{}'::jsonb;
+alter table promises add column if not exists context_metrics jsonb not null default '[]'::jsonb;
 alter table promises drop constraint if exists promises_status_check;
 alter table promises add constraint promises_status_check check (status in ('hecho', 'en_tramite', 'bloqueada', 'sin_rastro', 'evidencia_insuficiente'));
 alter table evidence_links add column if not exists reviewed_at timestamptz;
