@@ -18,6 +18,30 @@ class EvidenceStatus(str, Enum):
     EVIDENCIA_INSUFICIENTE = "evidencia_insuficiente"
 
 
+class ReviewStatus(str, Enum):
+    PENDING_REVIEW = "pending_review"
+    SOURCE_VERIFIED = "source_verified"
+    INSUFFICIENT_EVIDENCE = "insufficient_evidence"
+    NO_EVIDENCE_FOUND = "no_evidence_found"
+    REJECTED = "rejected"
+
+
+class ProgressStatus(str, Enum):
+    NOT_STARTED = "not_started"
+    IN_PROGRESS = "in_progress"
+    OUTCOME_DOCUMENTED = "outcome_documented"
+    COMPLETED = "completed"
+    DISCONTINUED = "discontinued"
+    NOT_ASSESSABLE = "not_assessable"
+
+
+class PublicationStatus(str, Enum):
+    DRAFT = "draft"
+    PENDING_REVIEW = "pending_review"
+    APPROVED = "approved"
+    REJECTED = "rejected"
+
+
 class BoeItem(BaseModel):
     id: str
     date: date
@@ -37,6 +61,10 @@ class Promise(BaseModel):
     announcement_date: date | None = None
     validation_sources: list[dict[str, str]] = Field(default_factory=list)
     source_verification: dict[str, str] = Field(default_factory=dict)
+    review_status: ReviewStatus = ReviewStatus.PENDING_REVIEW
+    progress_status: ProgressStatus = ProgressStatus.NOT_ASSESSABLE
+    evidence_tier: str | None = None
+    publication_status: PublicationStatus = PublicationStatus.PENDING_REVIEW
     context_metrics: list[dict[str, Any]] = Field(default_factory=list)
     topic: Topic
     territory: str

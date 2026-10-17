@@ -19,7 +19,7 @@
   --serif: 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, 'Times New Roman', serif;
   --sans: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 
-  --radius: 10px;
+  --radius: 2px;
   --measure: 68ch;
 }
 
@@ -98,7 +98,7 @@ main:focus {
 
 .container {
   width: 100%;
-  max-width: 62rem;
+  max-width: 72rem;
   margin: 0 auto;
   padding: 0 1rem;
 }
@@ -113,8 +113,8 @@ main:focus {
   flex-wrap: wrap;
   align-items: baseline;
   gap: 0.25rem 1.25rem;
-  padding-top: 0.9rem;
-  padding-bottom: 0.9rem;
+  padding-top: 1.2rem;
+  padding-bottom: 1.15rem;
 }
 .brand {
   display: inline-flex;
@@ -122,7 +122,7 @@ main:focus {
   gap: 0.55rem;
   min-height: 44px;
   font-family: var(--serif);
-  font-size: 1.5rem;
+  font-size: clamp(1.45rem, 3vw, 2rem);
   font-weight: 700;
   color: var(--ink);
   text-decoration: none;
@@ -152,7 +152,7 @@ main:focus {
 }
 
 .main {
-  padding-top: 1.5rem;
+  padding-top: 2.75rem;
   padding-bottom: 3rem;
   min-height: 60vh;
 }
@@ -170,13 +170,19 @@ main:focus {
 
 /* ---------- home ---------- */
 .intro h1 {
-  font-size: clamp(1.75rem, 5vw, 2.6rem);
-  max-width: 24ch;
+  max-width: 15ch;
+  font-size: clamp(2.8rem, 8vw, 6.8rem);
+  letter-spacing: -0.055em;
+  line-height: 0.94;
+  text-wrap: balance;
+  border-left: 0.12em solid var(--madrid-red);
+  padding-left: 0.22em;
 }
 .lead {
-  font-size: 1.15rem;
-  max-width: var(--measure);
-  margin-top: 0.9rem;
+  max-width: 47ch;
+  margin-top: 1.6rem;
+  font-size: clamp(1.1rem, 2vw, 1.35rem);
+  line-height: 1.45;
 }
 
 .legend {
@@ -220,10 +226,13 @@ main:focus {
 }
 
 .list-section {
-  margin-top: 2.5rem;
+  margin-top: 5rem;
+  border-top: 3px solid var(--ink);
+  padding-top: 1.25rem;
 }
 .section-title {
-  font-size: 1.4rem;
+  font-size: clamp(1.4rem, 3vw, 2.2rem);
+  letter-spacing: -0.03em;
 }
 
 .filter {
@@ -270,19 +279,23 @@ main:focus {
   margin: 0;
   padding: 0;
   display: grid;
-  gap: 1rem;
+  gap: 1px;
+  border-top: 1px solid var(--ink);
+  border-left: 1px solid var(--ink);
 }
 .card {
   position: relative;
-  padding: 1.1rem 1.1rem 1rem;
+  min-height: 15rem;
+  padding: 1.35rem 1.25rem 1rem;
   background: var(--surface);
   border: 1px solid var(--line);
-  border-left: 6px solid var(--ink);
-  border-radius: var(--radius);
+  border-left: 0;
+  border-top: 0;
+  border-radius: 0;
 }
 .card:hover {
-  border-color: var(--ink);
-  background: #fffdf8;
+  border-color: var(--madrid-red);
+  background: #fff9ef;
 }
 .card:focus-within {
   outline: 3px solid var(--focus);
@@ -301,7 +314,8 @@ main:focus {
   font-size: 0.92rem;
 }
 .card-title {
-  font-size: 1.3rem;
+  font-size: clamp(1.35rem, 2.5vw, 1.8rem);
+  letter-spacing: -0.025em;
   margin-bottom: 0.4rem;
 }
 .card-link {
@@ -327,7 +341,7 @@ main:focus {
   display: flex;
   justify-content: space-between;
   gap: 1rem;
-  margin: 0;
+  margin: 2.5rem 0 0;
   color: var(--muted);
   font-size: 0.92rem;
 }
@@ -442,31 +456,33 @@ main:focus {
 }
 
 .detail-header {
-  margin: 0.5rem 0 2rem;
+  margin: 0.5rem 0 3.5rem;
 }
 .eyebrow {
   margin: 0 0 0.25rem;
   color: var(--muted);
   font-size: 0.95rem;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.02em;
 }
 .label {
   margin: 0 0 0.35rem;
   font-weight: 600;
 }
 .promise-text {
-  font-size: clamp(1.5rem, 4.5vw, 2.2rem);
-  max-width: 28ch;
-  padding-left: 1rem;
-  border-left: 6px solid var(--ink);
+  font-size: clamp(2rem, 5vw, 4.25rem);
+  max-width: 18ch;
+  letter-spacing: -0.05em;
+  line-height: 0.98;
+  padding-left: 0.25em;
+  border-left: 0.12em solid var(--madrid-red);
 }
 .status-panel {
   margin-top: 1.25rem;
   padding: 1rem;
   background: var(--surface);
   border: 1px solid var(--line);
-  border-radius: var(--radius);
+  border-radius: 0;
+  border-left: 5px solid var(--madrid-red);
   max-width: var(--measure);
 }
 .status-panel p {
@@ -510,7 +526,8 @@ main:focus {
   padding: 1rem;
   background: var(--surface);
   border: 1px solid var(--line);
-  border-radius: var(--radius);
+  border-radius: 0;
+  border-top: 4px solid var(--ink);
 }
 .facts {
   margin: 0.75rem 0 0;
@@ -569,7 +586,7 @@ main:focus {
   top: 1.2rem;
   bottom: -0.2rem;
   width: 3px;
-  background: var(--ink);
+  background: var(--madrid-red);
 }
 .trail-item:last-child {
   padding-bottom: 0;
@@ -583,12 +600,12 @@ main:focus {
   top: 0.3rem;
   width: 1.45rem;
   height: 1.45rem;
-  border: 3px solid var(--ink);
+  border: 3px solid var(--madrid-red);
   border-radius: 50%;
   background: var(--paper);
 }
 .trail-item--start .trail-node {
-  background: var(--ink);
+  background: var(--madrid-red);
 }
 .trail-item--gap::before,
 .trail-item--end::before {

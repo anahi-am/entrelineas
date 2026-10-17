@@ -16,6 +16,7 @@ def test_health_and_empty_local_public_feed() -> None:
     assert response.json()["items"][0]["status"] == "insufficient_evidence"
     assert response.json()["items"][0]["officialSource"]["publishedAt"] == "2023-11-15"
     assert response.json()["items"][0]["sourceVerification"]["status"] == "source_confirmed"
+    assert response.json()["items"][0]["publicationStatus"] == "approved"
     assert response.json()["items"][0]["contextSources"][0]["url"].startswith("https://www.boe.es/")
     assert response.json()["items"][0]["contextSources"][0]["relationship"] == "related_context"
     assert "ine.es" in response.json()["items"][0]["contextSources"][1]["url"]

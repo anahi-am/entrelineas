@@ -1,4 +1,4 @@
-import type { EvidenceKind, EvidenceStatus, Topic } from './types';
+import type { EvidenceKind, EvidenceStatus, ProgressStatus, PublicationStatus, ReviewStatus, Topic } from './types';
 
 export const TOPICS: readonly Topic[] = ['housing'];
 
@@ -57,4 +57,28 @@ export const EVIDENCE_KIND_LABEL: Record<EvidenceKind, string> = {
   official_record: 'Registro oficial',
   official_statement: 'Declaración oficial',
   independent_report: 'Informe independiente',
+};
+
+export const REVIEW_STATUS_META: Record<ReviewStatus, { label: string; description: string }> = {
+  pending_review: { label: 'Pendiente de revisión', description: 'La ficha aún no ha sido revisada por el equipo.' },
+  source_verified: { label: 'Fuente verificada', description: 'La promesa aparece en la fuente citada; esto no demuestra su cumplimiento.' },
+  insufficient_evidence: { label: 'Evidencia insuficiente', description: 'Las fuentes disponibles no permiten evaluar el cumplimiento.' },
+  no_evidence_found: { label: 'Sin evidencia encontrada', description: 'No se encontró evidencia en las fuentes revisadas hasta la fecha indicada.' },
+  rejected: { label: 'Rechazada', description: 'La ficha no cumple los criterios de publicación.' },
+};
+
+export const PROGRESS_STATUS_META: Record<ProgressStatus, string> = {
+  not_started: 'No iniciada',
+  in_progress: 'En proceso',
+  outcome_documented: 'Resultado documentado',
+  completed: 'Cumplida',
+  discontinued: 'Decaída o retirada',
+  not_assessable: 'No evaluable',
+};
+
+export const PUBLICATION_STATUS_META: Record<PublicationStatus, string> = {
+  draft: 'Borrador',
+  pending_review: 'Pendiente de revisión pública',
+  approved: 'Registro público aprobado',
+  rejected: 'No publicado',
 };

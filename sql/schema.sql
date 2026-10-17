@@ -10,6 +10,10 @@ create table if not exists promises (
   validation_sources jsonb not null default '[]'::jsonb,
   source_verification jsonb not null default '{}'::jsonb,
   context_metrics jsonb not null default '[]'::jsonb,
+  review_status text not null default 'pending_review' check (review_status in ('pending_review', 'source_verified', 'insufficient_evidence', 'no_evidence_found', 'rejected')),
+  progress_status text not null default 'not_assessable' check (progress_status in ('not_started', 'in_progress', 'outcome_documented', 'completed', 'discontinued', 'not_assessable')),
+  evidence_tier text check (evidence_tier in ('tier_1', 'tier_2', 'tier_3', 'tier_4')),
+  publication_status text not null default 'pending_review' check (publication_status in ('draft', 'pending_review', 'approved', 'rejected')),
   topic text not null check (topic = 'vivienda'),
   territory text not null,
   status text not null default 'sin_rastro' check (status in ('hecho', 'en_tramite', 'bloqueada', 'sin_rastro', 'evidencia_insuficiente')),
@@ -51,6 +55,18 @@ alter table promises add column if not exists announcement_date date;
 alter table promises add column if not exists validation_sources jsonb not null default '[]'::jsonb;
 alter table promises add column if not exists source_verification jsonb not null default '{}'::jsonb;
 alter table promises add column if not exists context_metrics jsonb not null default '[]'::jsonb;
+alter table promises add column if not exists review_status text not null default 'pending_review';
+alter table promises add column if not exists progress_status text not null default 'not_assessable';
+alter table promises add column if not exists evidence_tier text;
+alter table promises add column if not exists publication_status text not null default 'pending_review';
+alter table promises drop constraint if exists promises_review_status_check;
+alter table promises add constraint promises_review_status_check check (review_status in ('pending_review', 'source_verified', 'insufficient_evidence', 'no_evidence_found', 'rejected'));
+alter table promises drop constraint if exists promises_progress_status_check;
+alter table promises add constraint promises_progress_status_check check (progress_status in ('not_started', 'in_progress', 'outcome_documented', 'completed', 'discontinued', 'not_assessable'));
+alter table promises drop constraint if exists promises_evidence_tier_check;
+alter table promises add constraint promises_evidence_tier_check check (evidence_tier in ('tier_1', 'tier_2', 'tier_3', 'tier_4') or evidence_tier is null);
+alter table promises drop constraint if exists promises_publication_status_check;
+alter table promises add constraint promises_publication_status_check check (publication_status in ('draft', 'pending_review', 'approved', 'rejected'));
 alter table promises drop constraint if exists promises_status_check;
 alter table promises add constraint promises_status_check check (status in ('hecho', 'en_tramite', 'bloqueada', 'sin_rastro', 'evidencia_insuficiente'));
 alter table evidence_links add column if not exists reviewed_at timestamptz;

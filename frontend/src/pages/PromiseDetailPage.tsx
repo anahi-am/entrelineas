@@ -4,7 +4,7 @@ import { SourceReference } from '../components/ExternalLink';
 import { EmptyState, ErrorState, LoadingState } from '../components/StateMessages';
 import { StatusBadge } from '../components/StatusBadge';
 import { formatDate } from '../domain/format';
-import { EVIDENCE_STATUS_META, TOPIC_META } from '../domain/labels';
+import { EVIDENCE_STATUS_META, PROGRESS_STATUS_META, PUBLICATION_STATUS_META, REVIEW_STATUS_META, TOPIC_META } from '../domain/labels';
 import { useAsyncResource } from '../hooks/useAsyncResource';
 import { useDocumentTitle } from '../hooks/useDocumentTitle';
 import { PromiseNotFoundError } from '../repository/PromiseRepository';
@@ -91,6 +91,18 @@ export function PromiseDetailPage() {
         <div className="status-panel">
           <StatusBadge status={promise.status} size="lg" />
           <p>{statusMeta.description}</p>
+          {promise.reviewStatus && (
+            <p><strong>Revisión:</strong> {REVIEW_STATUS_META[promise.reviewStatus].label}</p>
+          )}
+          {promise.progressStatus && (
+            <p><strong>Progreso:</strong> {PROGRESS_STATUS_META[promise.progressStatus]}</p>
+          )}
+          {promise.publicationStatus && (
+            <p><strong>Publicación:</strong> {PUBLICATION_STATUS_META[promise.publicationStatus]}</p>
+          )}
+          <p className="hint">
+            {promise.audienceDisclaimer ?? 'Esta ficha ayuda a entender información pública; consulta siempre las fuentes originales.'}
+          </p>
           <p>
             <a href="#sin-verificar" className="plain-link">
               Ver lo que sigue sin verificar ↓

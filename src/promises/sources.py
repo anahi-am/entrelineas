@@ -30,4 +30,10 @@ OFFICIAL_PROMISE_SOURCES = (
         "https://www.lamoncloa.gob.es/presidente/actividades/Paginas/2023/230223-cumpliendo.aspx",
         "Government of Spain",
     ),
+    PromiseSource(
+        "Portal de Transparencia",
+        "transparency_portal",
+        "https://transparencia.gob.es/",
+        "Government of Spain",
+    ),
 )

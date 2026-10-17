@@ -25,11 +25,17 @@ app.add_middleware(
 
 
 def _source(
-    title: str, publisher: str, url: str, published_at: str | None = None
+    title: str,
+    publisher: str,
+    url: str,
+    published_at: str | None = None,
+    source_type: str | None = None,
 ) -> dict[str, Any]:
     result: dict[str, Any] = {"title": title, "publisher": publisher, "url": url}
     if published_at:
         result["publishedAt"] = published_at
+    if source_type:
+        result["sourceType"] = source_type
     return result
 
 
@@ -54,6 +60,7 @@ def _public_record(row: dict[str, Any], evidence: list[dict[str, Any]]) -> dict[
             row["party"],
             source_url,
             row.get("announcement_date"),
+            "promise_source",
         ),
         "sourceVerification": row.get(
             "source_verification",
@@ -62,6 +69,14 @@ def _public_record(row: dict[str, Any], evidence: list[dict[str, Any]]) -> dict[
                 "method": "official URL and exact quote check",
                 "note": "Confirms that the promise was stated; it does not prove fulfilment.",
             },
+        ),
+        "reviewStatus": row.get("review_status", "source_verified"),
+        "progressStatus": row.get("progress_status", "not_assessable"),
+        "evidenceTier": row.get("evidence_tier"),
+        "publicationStatus": row.get("publication_status", "pending_review"),
+        "audienceDisclaimer": (
+            "EntreLineas ayuda a entender información pública y sus fuentes; "
+            "no es una fuente definitiva de verdad ni sustituye la consulta de los documentos originales."
         ),
         "status": status_map.get(row.get("status", "sin_rastro"), "insufficient_evidence"),
         "evidence": evidence,
@@ -89,7 +104,11 @@ def _fetch_public_records() -> list[dict[str, Any]]:
         if not SEED_PATH.exists():
             return []
         seed_rows = json.loads(SEED_PATH.read_text(encoding="utf-8"))
-        return [_public_record(row, row.get("evidence", [])) for row in seed_rows]
+        return [
+            _public_record(row, row.get("evidence", []))
+            for row in seed_rows
+            if row.get("publication_status") == "approved"
+        ]
     client = get_supabase_client()
     promises = (
         client.table("promises").select("*").eq("topic", "vivienda").execute().data or []
@@ -106,7 +125,11 @@ def _fetch_public_records() -> list[dict[str, Any]]:
             evidence_by_promise.setdefault(link["promise_id"], []).append(
                 _public_evidence(link, boe)
             )
-    return [_public_record(row, evidence_by_promise.get(row["id"], [])) for row in promises]
+    return [
+        _public_record(row, evidence_by_promise.get(row["id"], []))
+        for row in promises
+        if row.get("publication_status") == "approved"
+    ]
 
 
 @app.get("/health")

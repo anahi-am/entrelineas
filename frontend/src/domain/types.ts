@@ -9,6 +9,23 @@ export type EvidenceStatus =
   | 'no_trace' // Sin rastro
   | 'insufficient_evidence'; // Evidencia insuficiente
 
+export type ReviewStatus =
+  | 'pending_review'
+  | 'source_verified'
+  | 'insufficient_evidence'
+  | 'no_evidence_found'
+  | 'rejected';
+
+export type ProgressStatus =
+  | 'not_started'
+  | 'in_progress'
+  | 'outcome_documented'
+  | 'completed'
+  | 'discontinued'
+  | 'not_assessable';
+
+export type PublicationStatus = 'draft' | 'pending_review' | 'approved' | 'rejected';
+
 export type EvidenceKind =
   | 'official_document'
   | 'official_record'
@@ -23,6 +40,7 @@ export interface SourceLink {
   publishedAt?: string;
   relationship?: 'announcement' | 'candidate_validation' | 'related_context';
   whatItEstablishes?: string;
+  sourceType?: string;
 }
 
 export interface EvidenceItem {
@@ -52,6 +70,11 @@ export interface PromiseRecord {
     method: string;
     note: string;
   };
+  reviewStatus?: ReviewStatus;
+  progressStatus?: ProgressStatus;
+  evidenceTier?: 'tier_1' | 'tier_2' | 'tier_3' | 'tier_4' | null;
+  publicationStatus?: PublicationStatus;
+  audienceDisclaimer?: string;
   /** Publicly inspectable context sources; these are not proof of fulfilment. */
   contextSources?: SourceLink[];
   contextMetrics?: ContextMetric[];

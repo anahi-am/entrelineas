@@ -14,6 +14,7 @@ from db.models import BoeItem
 from src.config import BOE_MVP_TERRITORY, MVP_TOPIC, settings
 
 CONSOLIDATED_PATH = "/legislacion-consolidada"
+DAILY_SUMMARY_PATH = "/boe/sumario"
 
 
 def build_query(
@@ -69,6 +70,52 @@ def normalize_item(raw: dict[str, Any], *, topics: list[str] | None = None) -> B
     )
 
 
+def _raw_records(payload: Any) -> list[dict[str, Any]]:
+    """Extract record dictionaries from common BOE response envelopes."""
+    if isinstance(payload, list):
+        return [item for item in payload if isinstance(item, dict)]
+    if isinstance(payload, dict):
+        for key in ("data", "documentos", "documentosBOE", "item"):
+            value = payload.get(key)
+            if isinstance(value, list):
+                return [item for item in value if isinstance(item, dict)]
+            if isinstance(value, dict):
+                nested = _raw_records(value)
+                if nested:
+                    return nested
+    return []
+
+
+def fetch_daily_summary(
+    publication_date: str,
+    *,
+    client: httpx.Client | None = None,
+) -> list[BoeItem]:
+    """Discover records published in the BOE on YYYYMMDD."""
+    if len(publication_date) != 8 or not publication_date.isdigit():
+        raise ValueError("publication_date must use YYYYMMDD")
+    owns_client = client is None
+    http = client or httpx.Client(timeout=60.0)
+    try:
+        response = http.get(
+            f"{settings.boe_api_base}{DAILY_SUMMARY_PATH}/{publication_date}",
+            headers={"Accept": "application/json", "User-Agent": "Entrelineas/0.1"},
+        )
+        response.raise_for_status()
+        items: list[BoeItem] = []
+        for raw in _raw_records(response.json()):
+            try:
+                item = normalize_item(raw, topics=[MVP_TOPIC])
+            except (KeyError, TypeError, ValueError):
+                continue
+            if item.territory == BOE_MVP_TERRITORY:
+                items.append(item)
+        return items
+    finally:
+        if owns_client:
+            http.close()
+
+
 class _TextParser(HTMLParser):
     def __init__(self) -> None:
         super().__init__()
@@ -98,10 +145,10 @@ def fetch_document_text(item: BoeItem, *, client: httpx.Client | None = None) ->
             http.close()
 
 
-def search_housing(
+def search_consolidated_legislation(
     keywords: list[str], *, client: httpx.Client | None = None, limit: int = 20
 ) -> list[BoeItem]:
-    """Search official BOE records, retaining only national housing records."""
+    """Search official consolidated legislation, retaining national records."""
     owns_client = client is None
     http = client or httpx.Client(timeout=60.0)
     try:
@@ -132,3 +179,10 @@ def search_housing(
     finally:
         if owns_client:
             http.close()
+
+
+def search_housing(
+    keywords: list[str], *, client: httpx.Client | None = None, limit: int = 20
+) -> list[BoeItem]:
+    """Backward-compatible housing search over consolidated legislation."""
+    return search_consolidated_legislation(keywords, client=client, limit=limit)

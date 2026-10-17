@@ -8,7 +8,7 @@ commitments against official Spanish government evidence.
 - Spain-wide, national-level records only
 - Housing/vivienda only for the MVP
 - Official promise sources: investiture speeches and government progress reports
-- Official evidence source: BOE consolidated-legislation API
+- Official evidence sources: BOE daily summaries for discovery and BOE consolidated legislation for legal text and metadata
 - Context source: INE public statistics API; indicators provide context and do not prove promise fulfilment
 - Human review is required before any evidence relationship is published
 - Education/educación and sanidad are future expansions, not current classifier topics

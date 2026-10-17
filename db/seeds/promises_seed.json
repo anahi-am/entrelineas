@@ -10,6 +10,10 @@
       "method": "official URL and exact quote check",
       "note": "Confirms that the promise was stated; it does not prove fulfilment."
     },
+    "review_status": "source_verified",
+    "progress_status": "not_assessable",
+    "evidence_tier": null,
+    "publication_status": "approved",
     "context_metrics": [
       {
         "id": "ine-ipv-national-annual-2026-t2",
