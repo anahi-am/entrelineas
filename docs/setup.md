@@ -11,6 +11,12 @@ Apply [sql/schema.sql](../sql/schema.sql) to the project Supabase database
 before enabling persistence. The application writes only reviewed MVP records
 through the repository boundary in `db/repositories.py`.
 
+Run the API with:
+
+```bash
+uv run uvicorn src.api:app --reload --port 8000
+```
+
 Never commit `.env`, API keys, virtual environments, raw downloads, or
 generated logs. Use Supabase for persisted application records; local raw data
 is for development only and should remain outside the repository.
