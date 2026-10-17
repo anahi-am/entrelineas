@@ -266,6 +266,31 @@ main:focus {
   font-size: clamp(1.4rem, 3vw, 2.2rem);
   letter-spacing: -0.03em;
 }
+.section-intro {
+  max-width: 58ch;
+  color: var(--muted);
+}
+.search-bar {
+  display: grid;
+  gap: 0.45rem;
+  margin: 1.5rem 0 0.75rem;
+  max-width: 42rem;
+  color: var(--muted);
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+.search-bar input {
+  width: 100%;
+  min-height: 3.25rem;
+  padding: 0.7rem 1rem;
+  border: 2px solid var(--madrid-blue);
+  border-radius: 2px;
+  background: var(--surface);
+  color: var(--ink);
+  font: inherit;
+  box-shadow: 4px 4px 0 rgba(200, 16, 46, 0.16);
+}
+.search-bar input::placeholder { color: #7a858b; }
 
 .filter {
   margin: 1rem 0 0.5rem;
@@ -376,6 +401,30 @@ main:focus {
 .card-party {
   margin: 0 0 0.6rem;
   font-weight: 600;
+}
+.source-chip {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin: 0 0 0.7rem;
+  color: var(--link);
+  font-size: 0.84rem;
+  font-weight: 800;
+}
+.source-chip time {
+  margin-left: auto;
+  color: var(--muted);
+  font-weight: 500;
+}
+.card-highlight {
+  margin: 0.85rem 0 0;
+  padding: 0.65rem 0.8rem;
+  background: #f3eee4;
+  border-left: 3px solid var(--madrid-gold);
+  color: var(--muted);
+  font-family: var(--serif);
+  font-size: 0.96rem;
+  line-height: 1.4;
 }
 .card-foot {
   display: flex;
