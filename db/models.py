@@ -4,51 +4,10 @@ from typing import Literal
 
 from pydantic import BaseModel, Field
 
-Topic = Literal[
-    "vivienda",
-    "sanidad",
-    "empleo",
-    "educacion",
-    "economia",
-    "justicia",
-    "medio_ambiente",
-    "infraestructuras",
-    "pensiones",
-    "fiscalidad",
-    "igualdad",
-    "migracion",
-    "energia",
-    "agricultura",
-    "cultura",
-    "ciencia_tecnologia",
-    "defensa",
-    "politica_exterior",
-    "administracion_publica",
-    "territorios",
-]
+Topic = Literal["vivienda", "educacion", "sanidad"]
 
-TOPICS: tuple[Topic, ...] = (
-    "vivienda",
-    "sanidad",
-    "empleo",
-    "educacion",
-    "economia",
-    "justicia",
-    "medio_ambiente",
-    "infraestructuras",
-    "pensiones",
-    "fiscalidad",
-    "igualdad",
-    "migracion",
-    "energia",
-    "agricultura",
-    "cultura",
-    "ciencia_tecnologia",
-    "defensa",
-    "politica_exterior",
-    "administracion_publica",
-    "territorios",
-)
+MVP_TOPICS: tuple[Topic, ...] = ("vivienda",)
+FUTURE_TOPICS: tuple[Topic, ...] = ("educacion", "sanidad")
 
 
 class EvidenceStatus(str, Enum):

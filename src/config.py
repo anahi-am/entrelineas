@@ -7,6 +7,12 @@ from pydantic import BaseModel
 ROOT_DIR = Path(__file__).resolve().parents[1]
 SEEDS_DIR = ROOT_DIR / "db" / "seeds"
 
+# Hackathon MVP scope. Keep future topics explicit so expanding the product is
+# an intentional decision rather than an accidental classifier change.
+MVP_TOPIC = "vivienda"
+FUTURE_TOPICS = ("educacion", "sanidad")
+BOE_MVP_TERRITORY = "Estatal"
+
 load_dotenv(ROOT_DIR / ".env")
 
 
