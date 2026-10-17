@@ -13,6 +13,13 @@
         "publishedAt": "2022-01-18",
         "relationship": "related_context",
         "whatItEstablishes": "Marco estatal relacionado; no demuestra por sí solo el cumplimiento de la promesa de 183.000 viviendas."
+      },
+      {
+        "title": "API JSON del INE",
+        "publisher": "Instituto Nacional de Estadística",
+        "url": "https://www.ine.es/dyngs/DAB/es/index.htm?cid=1099",
+        "relationship": "related_context",
+        "whatItEstablishes": "Fuente oficial para indicadores estadísticos de contexto; no demuestra por sí sola que la promesa se haya cumplido."
       }
     ],
     "topic": "vivienda",
