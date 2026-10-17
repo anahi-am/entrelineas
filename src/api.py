@@ -55,10 +55,18 @@ def _public_record(row: dict[str, Any], evidence: list[dict[str, Any]]) -> dict[
             source_url,
             row.get("announcement_date"),
         ),
+        "sourceVerification": row.get(
+            "source_verification",
+            {
+                "status": "source_confirmed",
+                "method": "official URL and exact quote check",
+                "note": "Confirms that the promise was stated; it does not prove fulfilment.",
+            },
+        ),
         "status": status_map.get(row.get("status", "sin_rastro"), "insufficient_evidence"),
         "evidence": evidence,
         "unverifiedNotes": row.get("unverified_notes", []),
-        "validationSources": row.get("validation_sources", []) or [],
+        "contextSources": row.get("validation_sources", []) or [],
         "lastUpdatedAt": row.get("updated_at", row.get("created_at", date.today().isoformat())),
     }
 

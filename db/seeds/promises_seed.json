@@ -5,6 +5,11 @@
     "text": "habilitación de 183.000 viviendas públicas para alquiler asequible",
     "source_url": "https://www.lamoncloa.gob.es/presidente/intervenciones/paginas/2023/prsp15112023.aspx",
     "announcement_date": "2023-11-15",
+    "source_verification": {
+      "status": "source_confirmed",
+      "method": "official URL and exact quote check",
+      "note": "Confirms that the promise was stated; it does not prove fulfilment."
+    },
     "validation_sources": [
       {
         "title": "Real Decreto 42/2022 — Plan Estatal para el acceso a la vivienda 2022-2025",

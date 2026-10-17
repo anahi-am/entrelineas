@@ -47,8 +47,13 @@ export interface PromiseRecord {
   territory: string;
   plainLanguageExplanation: string;
   officialSource: SourceLink;
-  /** Publicly inspectable validation/context sources; these are not automatically proof. */
-  validationSources?: SourceLink[];
+  sourceVerification?: {
+    status: 'source_confirmed' | 'source_pending' | 'source_unavailable';
+    method: string;
+    note: string;
+  };
+  /** Publicly inspectable context sources; these are not proof of fulfilment. */
+  contextSources?: SourceLink[];
   /** Label supplied by the data source. The UI never computes or changes it. */
   status: EvidenceStatus;
   /** Only approved evidence ever reaches this array (enforced in the data layer). */

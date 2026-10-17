@@ -160,21 +160,36 @@ export function PromiseDetailPage() {
               <dd>{formatDate(promise.lastUpdatedAt)}</dd>
             </div>
             <div>
-              <dt>Fuente oficial</dt>
+              <dt>Fuente original de la promesa</dt>
               <dd>
                 <SourceReference source={promise.officialSource} />
               </dd>
             </div>
             <div>
-              <dt>Fuentes de validación y contexto</dt>
+              <dt>Verificación de la fuente</dt>
               <dd>
-                {(promise.validationSources ?? []).length > 0 ? (
+                <p>
+                  {promise.sourceVerification?.status === 'source_confirmed'
+                    ? 'La promesa aparece en la fuente oficial.'
+                    : promise.sourceVerification?.status === 'source_unavailable'
+                      ? 'No se ha podido comprobar la fuente.'
+                      : 'La fuente todavía no ha sido comprobada.'}
+                </p>
+                {promise.sourceVerification?.note && (
+                  <p className="hint">{promise.sourceVerification.note}</p>
+                )}
+              </dd>
+            </div>
+            <div>
+              <dt>Contexto oficial</dt>
+              <dd>
+                {(promise.contextSources ?? []).length > 0 ? (
                   <div className="source-stack">
-                    {(promise.validationSources ?? []).map((source) => (
+                    {(promise.contextSources ?? []).map((source) => (
                       <div key={source.url}>
                         <p className="source-label">
                           {source.relationship === 'related_context'
-                            ? 'Contexto oficial relacionado'
+                              ? 'Contexto oficial relacionado'
                             : source.relationship === 'candidate_validation'
                               ? 'Validación candidata'
                               : 'Fuente pública'}
@@ -187,7 +202,7 @@ export function PromiseDetailPage() {
                     ))}
                   </div>
                 ) : (
-                  <span className="muted">Todavía no hay una fuente de validación publicada.</span>
+                  <span className="muted">Todavía no hay contexto oficial añadido.</span>
                 )}
               </dd>
             </div>
