@@ -59,6 +59,25 @@ export const EVIDENCE_KIND_LABEL: Record<EvidenceKind, string> = {
   independent_report: 'Informe independiente',
 };
 
+export const EVIDENCE_TIERS = [
+  {
+    label: 'Tier 1 · Resultado oficial directo',
+    description: 'Una fuente oficial informa explícitamente del resultado relacionado con la promesa.',
+  },
+  {
+    label: 'Tier 2 · Aplicación oficial',
+    description: 'Existe una ley, decreto, presupuesto, contrato o programa oficial relacionado, pero no prueba por sí solo el resultado final.',
+  },
+  {
+    label: 'Tier 3 · Contexto oficial',
+    description: 'Una estadística oficial, como INE, aporta contexto, pero no atribuye el resultado a la promesa.',
+  },
+  {
+    label: 'Tier 4 · Fuente secundaria',
+    description: 'Prensa, ONG o investigación externa. Puede orientar la búsqueda, pero no basta por sí sola para publicar un resultado.',
+  },
+] as const;
+
 export const REVIEW_STATUS_META: Record<ReviewStatus, { label: string; description: string }> = {
   pending_review: { label: 'Pendiente de revisión', description: 'La ficha aún no ha sido revisada por el equipo.' },
   source_verified: { label: 'Fuente verificada', description: 'La promesa aparece en la fuente citada; esto no demuestra su cumplimiento.' },

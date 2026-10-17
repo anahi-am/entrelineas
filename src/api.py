@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from datetime import date
 import json
+import os
 from pathlib import Path
 from typing import Any
 
@@ -16,9 +17,18 @@ from src.config import settings
 SEED_PATH = Path(__file__).resolve().parents[1] / "db" / "seeds" / "promises_seed.json"
 
 app = FastAPI(title="EntreLineas API", version="0.1.0")
+allowed_origins = [
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+    "http://localhost:5174",
+    "http://127.0.0.1:5174",
+    "https://frontend-one-indol-43.vercel.app",
+]
+if os.getenv("FRONTEND_ORIGIN"):
+    allowed_origins.append(os.environ["FRONTEND_ORIGIN"])
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173", "http://127.0.0.1:5173"],
+    allow_origins=allowed_origins,
     allow_methods=["GET"],
     allow_headers=["*"],
 )

@@ -28,3 +28,10 @@ path. They are complementary and must not be treated as interchangeable.
 BOE metadata identifies the issuing department and legal instrument. It does
 not identify which political party made a promise, so party attribution comes
 from the promise source and must not be inferred from the BOE record.
+
+## Evidence tiers
+
+- Tier 1: an official source explicitly reports the outcome related to the promise.
+- Tier 2: an official law, decree, budget, contract, or programme is related to the promise, but does not prove the final outcome.
+- Tier 3: an official statistic, such as INE, provides context but does not attribute the outcome to the promise.
+- Tier 4: press, NGO, or independent research can guide discovery but is not sufficient alone for a published result.
