@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import date, datetime
 from enum import Enum
 from typing import Literal
 
@@ -35,6 +35,10 @@ class Promise(BaseModel):
     source_url: str
     topic: Topic
     territory: str
+    status: EvidenceStatus = EvidenceStatus.SIN_RASTRO
+    plain_language_explanation: str = ""
+    unverified_notes: list[str] = Field(default_factory=list)
+    updated_at: datetime | None = None
 
 
 class EvidenceLink(BaseModel):
@@ -42,3 +46,5 @@ class EvidenceLink(BaseModel):
     boe_item_id: str
     status: EvidenceStatus
     reasoning: str
+    reviewed_at: datetime | None = None
+    reviewer: str | None = None

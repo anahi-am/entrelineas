@@ -11,7 +11,8 @@ with housing as the only active topic.
 6. Retrieve and store the official BOE text for each candidate.
 7. Generate evidence candidates; never mark a promise as fulfilled automatically.
 8. Human-review the candidate relationship and assign the provisional status.
-9. Publish only approved records to the frontend.
+9. Store the promise status, plain-language explanation, unresolved notes, and review timestamp.
+10. Publish only approved records to the frontend.
 
 BOE metadata identifies the issuing department and legal instrument. It does
 not identify which political party made a promise, so party attribution comes

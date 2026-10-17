@@ -8,6 +8,10 @@ create table if not exists promises (
   source_url text not null,
   topic text not null check (topic = 'vivienda'),
   territory text not null,
+  status text not null default 'sin_rastro' check (status in ('hecho', 'en_tramite', 'bloqueada', 'sin_rastro')),
+  plain_language_explanation text not null default '',
+  unverified_notes text[] not null default '{}',
+  updated_at timestamptz not null default now(),
   created_at timestamptz not null default now()
 );
 
@@ -33,3 +37,11 @@ create table if not exists evidence_links (
   reviewer text,
   unique (promise_id, boe_item_id)
 );
+
+-- Safe additions for databases created from the earlier MVP schema.
+alter table promises add column if not exists status text not null default 'sin_rastro';
+alter table promises add column if not exists plain_language_explanation text not null default '';
+alter table promises add column if not exists unverified_notes text[] not null default '{}';
+alter table promises add column if not exists updated_at timestamptz not null default now();
+alter table evidence_links add column if not exists reviewed_at timestamptz;
+alter table evidence_links add column if not exists reviewer text;
