@@ -1,12 +1,7 @@
-from typing import TYPE_CHECKING
-
-if TYPE_CHECKING:
-    from supabase import Client
+from supabase import Client, create_client
 
 from src.config import settings
 
 
-def get_supabase_client() -> "Client":
-    from supabase import create_client
-
+def get_supabase_client() -> Client:
     return create_client(settings.supabase_url, settings.supabase_key)
