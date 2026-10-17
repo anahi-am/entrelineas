@@ -63,5 +63,13 @@ export function createMockPromiseRepository(
       if (!row) throw new PromiseNotFoundError(id);
       return toPublicRecord(row);
     },
+
+    async listBoeFeed() {
+      return [];
+    },
+
+    async getBoeItem(id: string) {
+      throw new PromiseNotFoundError(id);
+    },
   };
 }

@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from datetime import date
+from datetime import date, timedelta
 import json
 import os
 from pathlib import Path
@@ -13,8 +13,17 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from db.client import get_supabase_client
 from src.config import settings
+from src.fuentes.boe import fetch_daily_summary, fetch_document_text
 
 SEED_PATH = Path(__file__).resolve().parents[1] / "db" / "seeds" / "promises_seed.json"
+HOUSING_FEED_TERMS = (
+    "vivienda",
+    "alquiler",
+    "arrendamiento",
+    "residencial",
+    "habitacional",
+    "suelo",
+)
 
 app = FastAPI(title="EntreLineas API", version="0.1.0")
 allowed_origins = [
@@ -145,6 +154,82 @@ def _fetch_public_records() -> list[dict[str, Any]]:
 @app.get("/health")
 def health() -> dict[str, str]:
     return {"status": "ok", "scope": "housing", "territory": "Estatal"}
+
+
+@app.get("/boe/feed")
+def boe_feed(days: int = 7) -> dict[str, Any]:
+    """Return recent Spain-wide BOE housing publications for the public feed."""
+    days = max(1, min(days, 14))
+    today = date.today()
+    updates: list[dict[str, Any]] = []
+    for offset in range(days):
+        publication_date = today - timedelta(days=offset)
+        try:
+            items = fetch_daily_summary(publication_date.strftime("%Y%m%d"))
+        except Exception:
+            continue
+        for item in items:
+            if not any(term in item.title.casefold() for term in HOUSING_FEED_TERMS):
+                continue
+            updates.append(
+                {
+                    "id": item.id,
+                    "date": item.date.isoformat(),
+                    "title": item.title,
+                    "summary": "Publicación oficial del BOE relacionada con vivienda; consulta el documento original para conocer su alcance.",
+                    "source": {
+                        "title": "Boletín Oficial del Estado",
+                        "publisher": "BOE",
+                        "url": item.original_url,
+                        "publishedAt": item.date.isoformat(),
+                        "sourceType": "official_document",
+                    },
+                    "territory": item.territory,
+                    "isPromiseEvidence": False,
+                }
+            )
+    updates.sort(key=lambda update: (update["date"], update["id"]), reverse=True)
+    return {"items": updates}
+
+
+def _recent_boe_item(identifier: str, days: int = 14):
+    today = date.today()
+    for offset in range(days):
+        try:
+            items = fetch_daily_summary((today - timedelta(days=offset)).strftime("%Y%m%d"))
+        except Exception:
+            continue
+        for item in items:
+            if item.id == identifier and any(term in item.title.casefold() for term in HOUSING_FEED_TERMS):
+                return item
+    return None
+
+
+@app.get("/boe/feed/{item_id}")
+def boe_feed_detail(item_id: str) -> dict[str, Any]:
+    """Return a BOE feed item with a readable excerpt from the original document."""
+    item = _recent_boe_item(item_id)
+    if item is None:
+        raise HTTPException(status_code=404, detail="BOE update not found")
+    text = fetch_document_text(item)
+    sentences = [part.strip() for part in text.split(". ") if len(part.strip()) > 40]
+    excerpt = ". ".join(sentences[:2])
+    return {
+        "id": item.id,
+        "date": item.date.isoformat(),
+        "title": item.title,
+        "summary": excerpt[:600] or "Consulta el documento original para conocer su alcance.",
+        "originalExcerpt": excerpt[:1400] or None,
+        "source": {
+            "title": "Boletín Oficial del Estado",
+            "publisher": "BOE",
+            "url": item.original_url,
+            "publishedAt": item.date.isoformat(),
+            "sourceType": "official_document",
+        },
+        "territory": item.territory,
+        "isPromiseEvidence": False,
+    }
 
 
 @app.get("/published/promises")

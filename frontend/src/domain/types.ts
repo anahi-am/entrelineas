@@ -100,3 +100,14 @@ export interface ContextMetric {
   interpretation: string;
   limitation: string;
 }
+
+export interface BoeFeedItem {
+  id: string;
+  date: string;
+  title: string;
+  summary: string;
+  originalExcerpt?: string;
+  source: SourceLink;
+  territory: string;
+  isPromiseEvidence: false;
+}

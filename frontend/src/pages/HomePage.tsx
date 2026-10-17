@@ -4,6 +4,7 @@ import { PromiseCard } from '../components/PromiseCard';
 import { StatusLegend } from '../components/StatusLegend';
 import { TopicFilter } from '../components/TopicFilter';
 import { SearchBar } from '../components/SearchBar';
+import { BoeFeed } from '../components/BoeFeed';
 import { pluralize } from '../domain/format';
 import { TOPIC_META, topicFromSlug } from '../domain/labels';
 import type { Topic } from '../domain/types';
@@ -18,6 +19,10 @@ export function HomePage() {
   const query = params.get('q') ?? '';
   const { state, reload } = useAsyncResource(
     (signal) => repository.listPublishedPromises({ signal }),
+    [repository],
+  );
+  const feedState = useAsyncResource(
+    (signal) => repository.listBoeFeed({ signal }),
     [repository],
   );
 
@@ -39,6 +44,16 @@ export function HomePage() {
 
   const backSearch = params.toString() ? `?${params.toString()}` : '';
 
+  const searchAliases: Record<string, string[]> = {
+    unit: ['vivienda', 'viviendas'],
+    units: ['vivienda', 'viviendas'],
+    home: ['vivienda', 'viviendas'],
+    homes: ['vivienda', 'viviendas'],
+    housing: ['vivienda', 'viviendas'],
+    rent: ['alquiler', 'arrendamiento'],
+    affordable: ['asequible'],
+  };
+
   return (
     <>
       <section className="intro" aria-labelledby="page-title">
@@ -49,6 +64,19 @@ export function HomePage() {
         </p>
         <StatusLegend />
       </section>
+
+      {repository.dataSource === 'api' && <section className="feed-section" aria-labelledby="feed-title">
+        <div className="feed-heading">
+          <div>
+            <p className="eyebrow">Actualizaciones oficiales</p>
+            <h2 id="feed-title" className="section-title">Lo último del BOE sobre vivienda</h2>
+          </div>
+          <p className="feed-disclaimer">Novedades documentales, no veredictos de cumplimiento.</p>
+        </div>
+        {feedState.state.status === 'loading' && <LoadingState label="Consultando el BOE…" />}
+        {feedState.state.status === 'error' && <p className="feed-empty">El feed oficial no está disponible ahora.</p>}
+        {feedState.state.status === 'success' && <BoeFeed items={feedState.state.data} />}
+      </section>}
 
       <section aria-labelledby="list-title" className="list-section">
         <h2 id="list-title" className="section-title">
@@ -73,20 +101,24 @@ export function HomePage() {
         {state.status === 'success' && (() => {
           const all = state.data;
           const normalizedQuery = query.trim().toLocaleLowerCase('es');
+          const queryTerms = [normalizedQuery, ...(searchAliases[normalizedQuery] ?? [])];
           const matchesQuery = (promise: (typeof all)[number]) => {
             if (!normalizedQuery) return true;
             const searchable = [
               promise.originalText,
+              promise.plainLanguageExplanation,
               promise.party.name,
               promise.territory,
+              ...promise.unverifiedNotes,
               promise.officialSource.title,
               promise.officialSource.publisher,
               ...(promise.contextSources ?? []).flatMap((source) => [source.title, source.publisher]),
-              ...promise.evidence.flatMap((item) => [item.title, item.summary, item.source.publisher]),
+              ...(promise.contextMetrics ?? []).flatMap((metric) => [metric.label, metric.interpretation]),
+              ...promise.evidence.flatMap((item) => [item.title, item.summary, item.originalExcerpt ?? '', item.source.publisher]),
             ]
               .join(' ')
               .toLocaleLowerCase('es');
-            return searchable.includes(normalizedQuery);
+            return queryTerms.some((term) => searchable.includes(term));
           };
           const visible = all
             .filter((p) => (activeTopic ? p.topic === activeTopic : true))
@@ -119,7 +151,7 @@ export function HomePage() {
           return (
             <>
               <p className="result-count" role="status" aria-live="polite">
-                {pluralize(visible.length, 'resultado', 'resultados')}
+                {pluralize(visible.length, 'promesa', 'promesas')}
                 {activeTopic && ` sobre ${TOPIC_META[activeTopic].label.toLowerCase()}`}
                 {query && ` para «${query}»`}
               </p>

@@ -1,4 +1,5 @@
 import type {
+  BoeFeedItem,
   EvidenceItem,
   PromiseRecord,
 } from '../domain/types';
@@ -61,6 +62,19 @@ export function createHttpPromiseRepository(
       if (response.status === 404) throw new PromiseNotFoundError(id);
       if (!response.ok) throw new RepositoryError(`GET /promises/{id} -> ${response.status}`);
       return toPromiseRecord((await response.json()) as PromiseRecordDto);
+    },
+
+    async listBoeFeed({ signal }: RequestOptions = {}) {
+      const response = await getJson('/boe/feed', signal);
+      if (!response.ok) throw new RepositoryError(`GET /boe/feed -> ${response.status}`);
+      return ((await response.json()) as { items: BoeFeedItem[] }).items;
+    },
+
+    async getBoeItem(id: string, { signal }: RequestOptions = {}) {
+      const response = await getJson(`/boe/feed/${encodeURIComponent(id)}`, signal);
+      if (response.status === 404) throw new PromiseNotFoundError(id);
+      if (!response.ok) throw new RepositoryError(`GET /boe/feed/{id} -> ${response.status}`);
+      return (await response.json()) as BoeFeedItem;
     },
   };
 }

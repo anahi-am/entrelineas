@@ -1,4 +1,4 @@
-import type { PromiseRecord } from '../domain/types';
+import type { BoeFeedItem, PromiseRecord } from '../domain/types';
 
 export interface RequestOptions {
   signal?: AbortSignal;
@@ -16,6 +16,8 @@ export interface PromiseRepository {
   listPublishedPromises(options?: RequestOptions): Promise<PromiseRecord[]>;
   /** Rejects with PromiseNotFoundError when the id does not exist. */
   getPromiseById(id: string, options?: RequestOptions): Promise<PromiseRecord>;
+  listBoeFeed(options?: RequestOptions): Promise<BoeFeedItem[]>;
+  getBoeItem(id: string, options?: RequestOptions): Promise<BoeFeedItem>;
 }
 
 export class PromiseNotFoundError extends Error {
