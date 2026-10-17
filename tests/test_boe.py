@@ -18,7 +18,8 @@ def test_normalize_item_keeps_source_metadata() -> None:
             "titulo": "Medidas de vivienda",
             "url_eli": "https://www.boe.es/eli/es/rd/2024/01/01/1",
             "ambito": {"texto": "Estatal"},
-        }
+        },
+        topics=["vivienda"],
     )
     assert item.id == "BOE-A-2024-1"
     assert item.date == date(2024, 1, 2)
